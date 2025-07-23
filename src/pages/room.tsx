@@ -1,18 +1,18 @@
-import { ArrowLeft, Radio } from 'lucide-react'
-import { Link, Navigate, useParams } from 'react-router-dom'
-import { QuestionForm } from '@/components/question-form'
-import { QuestionList } from '@/components/question-list'
-import { Button } from '@/components/ui/button'
+import { ArrowLeft, Radio } from "lucide-react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { QuestionForm } from "@/components/question-form";
+import { QuestionList } from "@/components/question-list";
+import { Button } from "@/components/ui/button";
 
 type RoomParams = {
-  roomId: string
-}
+  roomId: string;
+};
 
 export function Room() {
-  const params = useParams<RoomParams>()
+  const params = useParams<RoomParams>();
 
   if (!params.roomId) {
-    return <Navigate replace to="/" />
+    return <Navigate replace to="/" />;
   }
 
   return (
@@ -26,12 +26,20 @@ export function Room() {
                 Voltar ao Início
               </Button>
             </Link>
-            <Link to={`/room/${params.roomId}/audio`}>
-              <Button className="flex items-center gap-2" variant="secondary">
-                <Radio className="size-4" />
-                Gravar Áudio
-              </Button>
-            </Link>
+            <div className="flex flex-col items-center space-y-6">
+              <Link to={`/room/${params.roomId}/audio`}>
+                <Button className="flex items-center gap-2" variant="secondary">
+                  <Radio className="size-4" />
+                  Gravar Áudio
+                </Button>
+              </Link>
+              <Link to={`/room/${params.roomId}/summary`}>
+                <Button className="flex items-center gap-2" variant="secondary">
+                  <Radio className="size-4" />
+                  Upload de Informações gerais
+                </Button>
+              </Link>
+            </div>
           </div>
           <h1 className="mb-2 font-bold text-3xl text-foreground">
             Sala de Perguntas
@@ -48,5 +56,5 @@ export function Room() {
         <QuestionList roomId={params.roomId} />
       </div>
     </div>
-  )
+  );
 }
