@@ -9,7 +9,7 @@ export function useCreateSumarry(roomId: string) {
   return useMutation({
     mutationFn: async (data: CreateSumarryRequest) => {
       const response = await fetch(
-        `http://localhost:3333/rooms/${roomId}/sumarrys`,
+        `http://localhost:3333/rooms/${roomId}/sumarry`,
         {
           method: "POST",
           headers: {
@@ -22,6 +22,42 @@ export function useCreateSumarry(roomId: string) {
       const result: CreateSumarryResponse = await response.json();
 
       return result;
+    },
+    // Executa no momento que for feita a chamada p/ API
+    onMutate({ content }) {
+      const previousSumarry = queryClient.getQueryData<GetRoomSumarryResponse>([
+        "get-sumarry",
+        roomId,
+      ]);
+
+      const newSummary = {
+        id: crypto.randomUUID(),
+        content: content,
+        createdAt: new Date().toISOString(),
+        isGenetaringSumarry: true,
+      };
+      if (!previousSumarry) {
+        queryClient.setQueryData<GetRoomSumarryResponse>(
+          ["get-sumarry", roomId],
+          newSummary
+        );
+      }
+
+      return { newSummary, previousSumarry };
+    },
+    onSuccess(data, _variables, context) {
+      queryClient.setQueryData<GetRoomSumarryResponse>(
+        ["get-sumarry", roomId],
+        (sumarry) => {
+          if (sumarry) {
+            return {
+              id: sumarry.id,
+              content: sumarry.content,
+              createdAt: sumarry.createdAt,
+            };
+          }
+        }
+      );
     },
   });
 }

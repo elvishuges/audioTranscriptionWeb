@@ -45,7 +45,7 @@ export function CreateSumarryForm({ roomId }: SumarryFormProps) {
     },
   });
 
-  async function handleCreateQuestion(data: CreateSumarryFormData) {
+  async function handleCreateSummary(data: CreateSumarryFormData) {
     await createSumarry(data);
   }
 
@@ -63,14 +63,14 @@ export function CreateSumarryForm({ roomId }: SumarryFormProps) {
         <Form {...form}>
           <form
             className="flex flex-col gap-4"
-            onSubmit={form.handleSubmit(handleCreateQuestion)}
+            onSubmit={form.handleSubmit(handleCreateSummary)}
           >
             <FormField
               control={form.control}
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sua Resumo</FormLabel>
+                  <FormLabel>Seu Resumo</FormLabel>
                   <FormControl>
                     <Textarea
                       className="min-h-[100px]"
