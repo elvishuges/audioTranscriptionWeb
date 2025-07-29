@@ -47,12 +47,13 @@ export function CreateSumarryForm({ roomId }: SumarryFormProps) {
 
   async function handleCreateSummary(data: CreateSumarryFormData) {
     await createSumarry(data);
+    form.reset();
   }
 
   const { isSubmitting } = form.formState;
 
   return (
-    <Card>
+    <Card className="mt-5">
       <CardHeader>
         <CardTitle>Fazer uma Resumo</CardTitle>
         <CardDescription>
